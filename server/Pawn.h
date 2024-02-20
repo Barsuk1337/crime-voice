@@ -108,49 +108,9 @@ private:
 
 	static DeleteStreamHandlerType					deleteStreamHandler;
 
-private:
-
-    class AmxCallback {
-    public:
-
-        AmxCallback() = delete;
-        AmxCallback(const AmxCallback&) noexcept = default;
-        AmxCallback(AmxCallback&&) noexcept = default;
-        AmxCallback& operator=(const AmxCallback&) noexcept = default;
-        AmxCallback& operator=(AmxCallback&&) noexcept = default;
-
-    public:
-
-        explicit AmxCallback(AMX* amx, int index) noexcept
-            : amx(amx), index(index) {}
-
-        ~AmxCallback() noexcept = default;
-
-    public:
-
-        template<class... ARGS>
-        cell Call(ARGS... args) const noexcept
-        {
-            cell returnValue { NULL };
-
-            (amx_Push(this->amx, static_cast<cell>(args)), ...);
-            amx_Exec(this->amx, &returnValue, this->index);
-
-            return returnValue;
-        }
-
-    private:
-
-        AMX* amx { nullptr };
-        int index { -1 };
-
-    };
 
 	static bool initStatus;
 	static bool debugStatus;
-
-	static std::vector<AmxCallback> callbacksOnPlayerActivationKeyPress;
-	static std::vector<AmxCallback> callbacksOnPlayerActivationKeyRelease;
 
 	static cell AMX_NATIVE_CALL n_SvDebug(AMX* amx, cell* params);
 

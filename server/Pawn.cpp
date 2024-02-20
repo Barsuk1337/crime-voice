@@ -47,9 +47,6 @@ Pawn::DeleteStreamHandlerType					Pawn::deleteStreamHandler(nullptr);
 bool Pawn::initStatus(false);
 bool Pawn::debugStatus(false);
 
-std::vector<Pawn::AmxCallback> Pawn::callbacksOnPlayerActivationKeyPress;
-std::vector<Pawn::AmxCallback> Pawn::callbacksOnPlayerActivationKeyRelease;
-
 cell AMX_NATIVE_CALL Pawn::n_SvDebug(AMX* amx, cell* params) {
 
 	if (!Pawn::initStatus) return NULL;
