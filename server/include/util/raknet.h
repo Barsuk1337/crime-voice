@@ -13,7 +13,6 @@
 #include <cstdint>
 #include <functional>
 #include <shared_mutex>
-#include <shared_timed_mutex>
 #include <memory>
 #include <mutex>
 
