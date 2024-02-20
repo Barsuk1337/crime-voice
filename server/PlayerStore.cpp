@@ -11,7 +11,7 @@
 
 #include <ysf/globals.h>
 
-std::array<std::shared_mutex, MAX_PLAYERS> PlayerStore::playerMutex;
+std::array<std::shared_timed_mutex, MAX_PLAYERS> PlayerStore::playerMutex;
 std::array<std::atomic<PlayerInfo*>, MAX_PLAYERS> PlayerStore::playerInfo = {};
 
 void PlayerStore::AddPlayerToStore(const uint16_t playerId, const uint8_t version, const bool microStatus) {

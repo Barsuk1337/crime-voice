@@ -46,7 +46,7 @@ std::array<std::atomic_bool, MAX_PLAYERS> Network::playerStatusTable = {};
 std::array<std::shared_ptr<sockaddr_in>, MAX_PLAYERS> Network::playerAddrTable = {};
 std::array<uint64_t, MAX_PLAYERS> Network::playerKeyTable = {};
 
-std::shared_mutex Network::playerKeyToPlayerIdTableMutex;
+std::shared_timed_mutex Network::playerKeyToPlayerIdTableMutex;
 std::map<uint64_t, uint16_t> Network::playerKeyToPlayerIdTable;
 
 Network::ConnectHandlerType Network::connectHandler(nullptr);
@@ -99,7 +99,7 @@ bool Network::ConnectHandler(const uint16_t playerId, const RPCParameters* rpc) 
 	std::atomic_store(&Network::playerAddrTable[playerId], std::shared_ptr<sockaddr_in>(nullptr));
 
 	{
-		const std::unique_lock<std::shared_mutex> lock(Network::playerKeyToPlayerIdTableMutex);
+		const std::unique_lock<std::shared_timed_mutex> lock(Network::playerKeyToPlayerIdTableMutex);
 
 		Network::playerKeyToPlayerIdTable.erase(Network::playerKeyTable[playerId]);
 		Network::playerKeyToPlayerIdTable[playerKey] = playerId;
@@ -135,7 +135,7 @@ void Network::DisconnectHandler(const uint16_t playerId) {
 	std::atomic_store(&Network::playerAddrTable[playerId], std::shared_ptr<sockaddr_in>(nullptr));
 
 	{
-		const std::unique_lock<std::shared_mutex> lock(Network::playerKeyToPlayerIdTableMutex);
+		const std::unique_lock<std::shared_timed_mutex> lock(Network::playerKeyToPlayerIdTableMutex);
 
 		Network::playerKeyToPlayerIdTable.erase(Network::playerKeyTable[playerId]);
 	}
@@ -389,7 +389,7 @@ VoicePacketContainerPtr Network::ReceiveVoicePacket() {
 	uint16_t playerId = SV::NonePlayer;
 
 	{
-		const std::shared_lock<std::shared_mutex> lock(Network::playerKeyToPlayerIdTableMutex);
+		const std::shared_lock<std::shared_timed_mutex> lock(Network::playerKeyToPlayerIdTableMutex);
 
 		const auto iter = Network::playerKeyToPlayerIdTable.find(playerKey);
 		if (iter == Network::playerKeyToPlayerIdTable.end()) return nullptr;
@@ -461,7 +461,7 @@ void Network::Free() {
 #endif
 
 		{
-			const std::unique_lock<std::shared_mutex> lock(Network::playerKeyToPlayerIdTableMutex);
+			const std::unique_lock<std::shared_timed_mutex> lock(Network::playerKeyToPlayerIdTableMutex);
 
 			Network::playerKeyToPlayerIdTable.clear();
 		}

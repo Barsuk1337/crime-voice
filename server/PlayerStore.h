@@ -21,7 +21,7 @@
 class PlayerStore {
 private:
 
-	static std::array<std::shared_mutex, MAX_PLAYERS> playerMutex;
+	static std::array<std::shared_timed_mutex, MAX_PLAYERS> playerMutex;
 	static std::array<std::atomic<PlayerInfo*>, MAX_PLAYERS> playerInfo;
 
 public:

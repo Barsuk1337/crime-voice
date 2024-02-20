@@ -63,7 +63,7 @@ private:
 	static std::array<std::shared_ptr<sockaddr_in>, MAX_PLAYERS> playerAddrTable;
 	static std::array<uint64_t, MAX_PLAYERS> playerKeyTable;
 
-	static std::shared_mutex playerKeyToPlayerIdTableMutex;
+	static std::shared_timed_mutex playerKeyToPlayerIdTableMutex;
 	static std::map<uint64_t, uint16_t> playerKeyToPlayerIdTable;
 
 private:
