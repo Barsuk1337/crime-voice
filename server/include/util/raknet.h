@@ -12,7 +12,7 @@
 #include <array>
 #include <cstdint>
 #include <functional>
-#include <shared_mutex>
+#include <mutex>
 #include <memory>
 #include <mutex>
 
@@ -205,13 +205,13 @@ private:
 
 	};
 
-	static std::shared_mutex rpcQueueMutex;
+	static std::mutex rpcQueueMutex;
 	static MPMCQueue<SendRpcInfo> rpcQueue;
 
-	static std::shared_mutex packetQueueMutex;
+	static std::mutex packetQueueMutex;
 	static MPMCQueue<SendPacketInfo> packetQueue;
 
-	static std::shared_mutex kickQueueMutex;
+	static std::mutex kickQueueMutex;
 	static MPMCQueue<uint16_t> kickQueue;
 
 private:
