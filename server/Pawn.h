@@ -192,9 +192,6 @@ public:
 		const DeleteStreamHandlerType& deleteStreamHandler
 	);
 
-	static void OnPlayerActivationKeyPressForAll(const uint16_t playerid, const uint8_t keyid);
-	static void OnPlayerActivationKeyReleaseForAll(const uint16_t playerid, const uint8_t keyid);
-
 	static void RegisterScript(AMX* const amx);
 
 	static void Free();

@@ -69,6 +69,3 @@ native SV_BOOL:SvDetachSpeakerFromStream(SV_STREAM:stream, SV_UINT:playerid);
 native SV_VOID:SvDetachAllSpeakersFromStream(SV_STREAM:stream);
 
 native SV_VOID:SvDeleteStream(SV_STREAM:stream);
-
-forward SV_VOID:OnPlayerActivationKeyPress(SV_UINT:playerid, SV_UINT:keyid);
-forward SV_VOID:OnPlayerActivationKeyRelease(SV_UINT:playerid, SV_UINT:keyid);

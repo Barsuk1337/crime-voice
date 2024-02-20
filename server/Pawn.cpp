@@ -846,7 +846,7 @@ bool Pawn::Init(
 
 }
 
-void Pawn::OnPlayerActivationKeyPressForAll(const uint16_t playerid, const uint8_t keyid) {
+/*void Pawn::OnPlayerActivationKeyPressForAll(const uint16_t playerid, const uint8_t keyid) {
 
 	if (!Pawn::initStatus) return;
 
@@ -862,7 +862,7 @@ void Pawn::OnPlayerActivationKeyReleaseForAll(const uint16_t playerid, const uin
 	for (const auto& iCallback : Pawn::callbacksOnPlayerActivationKeyRelease)
 		iCallback.Call(keyid, playerid);
 
-}
+}*/
 
 void Pawn::RegisterScript(AMX* const amx) {
 
@@ -923,7 +923,7 @@ void Pawn::RegisterScript(AMX* const amx) {
 
 	int tmpIndex = -1;
 
-	Logger::LogToFile("[sv:dbg:pawn:register] : finding 'OnPlayerActivationKeyPress' callback function...");
+	/*Logger::LogToFile("[sv:dbg:pawn:register] : finding 'OnPlayerActivationKeyPress' callback function...");
 
 	if (!amx_FindPublic(amx, "OnPlayerActivationKeyPress", &tmpIndex) && tmpIndex >= 0) {
 
@@ -939,7 +939,7 @@ void Pawn::RegisterScript(AMX* const amx) {
 		Logger::LogToFile("[sv:dbg:pawn:register] : finded 'OnPlayerActivationKeyRelease' callback function (index:%d)", tmpIndex);
 		Pawn::callbacksOnPlayerActivationKeyRelease.emplace_back(amx, tmpIndex);
 
-	}
+	}*/
 
 }
 
@@ -992,8 +992,8 @@ void Pawn::Free() {
 
 	Pawn::deleteStreamHandler = nullptr;
 
-	Pawn::callbacksOnPlayerActivationKeyPress.clear();
-	Pawn::callbacksOnPlayerActivationKeyRelease.clear();
+	/*Pawn::callbacksOnPlayerActivationKeyPress.clear();
+	Pawn::callbacksOnPlayerActivationKeyRelease.clear();*/
 
 	Logger::LogToFile("[sv:dbg:pawn:free] : module released");
 

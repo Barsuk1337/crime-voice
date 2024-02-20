@@ -593,7 +593,7 @@ namespace SV {
 
 		uint16_t senderId = SV::NonePlayer;
 
-		while (const auto controlPacket = Network::ReceiveControlPacket(senderId)) {
+		/*while (const auto controlPacket = Network::ReceiveControlPacket(senderId)) {
 
 			const ControlPacketContainer& controlPacketRef = *controlPacket;
 
@@ -634,7 +634,7 @@ namespace SV {
 			} break;
 			}
 
-		}
+		}*/
 
 		Network::Process(curTime);
 
