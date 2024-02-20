@@ -7,7 +7,7 @@ PRELINK_FLAGS = $(COMMON_FLAGS) -shared -static-libstdc++
 all:
 	gcc $(COMPILE_FLAGS) include/pawn/amx/*.h
 	g++ $(COMPILE_FLAGS) -std=c++11 include/pawn/*.cpp
-	g++ $(COMPILE_FLAGS) -std=c++14 include/raknet/*.cpp
+	g++ $(COMPILE_FLAGS) -std=c++11 include/raknet/*.cpp
 	g++ $(COMPILE_FLAGS) -std=c++17 include/util/*.cpp
 	g++ $(COMPILE_FLAGS) -std=c++11 include/ysf/*.cpp
 	g++ $(COMPILE_FLAGS) -std=c++17 *.cpp
