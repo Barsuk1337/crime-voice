@@ -558,7 +558,7 @@ bool RakNet::SendRPC(const uint8_t rpcId, const uint16_t playerId, const void* d
 
 	if (!bitStream) return false;
 
-	const std::shared_lock<std::shared_mutex> lock(RakNet::rpcQueueMutex);
+	const std::shared_lock<std::mutex> lock(RakNet::rpcQueueMutex);
 
 	return RakNet::rpcQueue.try_emplace(bitStream, playerId, rpcId);
 
@@ -573,7 +573,7 @@ bool RakNet::SendPacket(const uint8_t packetId, const uint16_t playerId, const v
 	bitStream->Write(packetId);
 	bitStream->Write((char*)(dataPtr), dataSize);
 
-	const std::shared_lock<std::shared_mutex> lock(RakNet::packetQueueMutex);
+	const std::shared_lock<std::mutex> lock(RakNet::packetQueueMutex);
 
 	return RakNet::packetQueue.try_emplace(bitStream, playerId);
 
@@ -581,7 +581,7 @@ bool RakNet::SendPacket(const uint8_t packetId, const uint16_t playerId, const v
 
 bool RakNet::KickPlayer(const uint16_t playerId) {
 
-	const std::shared_lock<std::shared_mutex> lock(RakNet::kickQueueMutex);
+	const std::shared_lock<std::mutex> lock(RakNet::kickQueueMutex);
 
 	return RakNet::kickQueue.try_emplace(playerId);
 
