@@ -379,13 +379,13 @@ void THISCALL RakNet::RegisterRpcHook(void* _this, uint8_t* rpcIdPointer, RPCFun
 
 }
 
-std::shared_mutex RakNet::rpcQueueMutex;
+std::shared_timed_mutex RakNet::rpcQueueMutex;
 MPMCQueue<RakNet::SendRpcInfo> RakNet::rpcQueue(16 * MAX_PLAYERS);
 
-std::shared_mutex RakNet::packetQueueMutex;
+std::shared_timed_mutex RakNet::packetQueueMutex;
 MPMCQueue<RakNet::SendPacketInfo> RakNet::packetQueue(16 * MAX_PLAYERS);
 
-std::shared_mutex RakNet::kickQueueMutex;
+std::shared_timed_mutex RakNet::kickQueueMutex;
 MPMCQueue<uint16_t> RakNet::kickQueue(MAX_PLAYERS);
 
 Memory::JumpHookPtr RakNet::hookGetRakServerInterface;
