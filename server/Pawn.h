@@ -124,7 +124,7 @@ private:
 
 			cell returnValue = NULL;
 
-			(amx_Push(this->amx, static_cast<cell>(args)), ...); // reverse order of arguments
+			(amx_Push(this->amx, static_cast<cell>(args))); // reverse order of arguments
 			amx_Exec(this->amx, &returnValue, this->index);
 
 			return returnValue;
