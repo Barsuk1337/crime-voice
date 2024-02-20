@@ -205,13 +205,13 @@ private:
 
 	};
 
-	static std::mutex rpcQueueMutex;
+	static std::shared_mutex rpcQueueMutex;
 	static MPMCQueue<SendRpcInfo> rpcQueue;
 
-	static std::mutex packetQueueMutex;
+	static std::shared_mutex packetQueueMutex;
 	static MPMCQueue<SendPacketInfo> packetQueue;
 
-	static std::mutex kickQueueMutex;
+	static std::shared_mutex kickQueueMutex;
 	static MPMCQueue<uint16_t> kickQueue;
 
 private:
