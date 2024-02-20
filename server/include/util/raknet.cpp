@@ -525,7 +525,7 @@ void RakNet::Process() {
 
 	// Rpc's sending...
 	{
-		const std::unique_lock<std::shared_mutex> lock(RakNet::rpcQueueMutex);
+		const std::unique_lock<std::shared_timed_mutex> lock(RakNet::rpcQueueMutex);
 
 		SendRpcInfo sendRpcInfo; while (RakNet::rpcQueue.try_pop(sendRpcInfo)) RakNet::Rpc(
 			&sendRpcInfo.rpcId, sendRpcInfo.bitStream.get(), PacketPriority::MEDIUM_PRIORITY,
@@ -535,7 +535,7 @@ void RakNet::Process() {
 
 	// Packets sending...
 	{
-		const std::unique_lock<std::shared_mutex> lock(RakNet::packetQueueMutex);
+		const std::unique_lock<std::shared_timed_mutex> lock(RakNet::packetQueueMutex);
 
 		SendPacketInfo sendPacketInfo; while (RakNet::packetQueue.try_pop(sendPacketInfo)) RakNet::Send(
 			sendPacketInfo.bitStream.get(), PacketPriority::MEDIUM_PRIORITY, PacketReliability::RELIABLE_ORDERED,
@@ -544,7 +544,7 @@ void RakNet::Process() {
 
 	// Kicking players...
 	{
-		const std::unique_lock<std::shared_mutex> lock(RakNet::kickQueueMutex);
+		const std::unique_lock<std::shared_timed_mutex> lock(RakNet::kickQueueMutex);
 
 		uint16_t kickPlayerId; while (RakNet::kickQueue.try_pop(kickPlayerId))
 			RakNet::Kick(RakNet::GetPlayerIdFromIndex(kickPlayerId));
@@ -558,7 +558,7 @@ bool RakNet::SendRPC(const uint8_t rpcId, const uint16_t playerId, const void* d
 
 	if (!bitStream) return false;
 
-	const std::shared_lock<std::shared_mutex> lock(RakNet::rpcQueueMutex);
+	const std::shared_lock<std::shared_timed_mutex> lock(RakNet::rpcQueueMutex);
 
 	return RakNet::rpcQueue.try_emplace(bitStream, playerId, rpcId);
 
@@ -573,7 +573,7 @@ bool RakNet::SendPacket(const uint8_t packetId, const uint16_t playerId, const v
 	bitStream->Write(packetId);
 	bitStream->Write((char*)(dataPtr), dataSize);
 
-	const std::shared_lock<std::shared_mutex> lock(RakNet::packetQueueMutex);
+	const std::shared_lock<std::shared_timed_mutex> lock(RakNet::packetQueueMutex);
 
 	return RakNet::packetQueue.try_emplace(bitStream, playerId);
 
@@ -581,7 +581,7 @@ bool RakNet::SendPacket(const uint8_t packetId, const uint16_t playerId, const v
 
 bool RakNet::KickPlayer(const uint16_t playerId) {
 
-	const std::shared_lock<std::shared_mutex> lock(RakNet::kickQueueMutex);
+	const std::shared_lock<std::shared_timed_mutex> lock(RakNet::kickQueueMutex);
 
 	return RakNet::kickQueue.try_emplace(playerId);
 
