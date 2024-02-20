@@ -108,30 +108,43 @@ private:
 
 	static DeleteStreamHandlerType					deleteStreamHandler;
 
-	class AmxCallback {
-	private:
+private:
 
-		AMX* const amx;
-		const int index;
+    class AmxCallback {
+    public:
 
-	public:
+        AmxCallback() = delete;
+        AmxCallback(const AmxCallback&) noexcept = default;
+        AmxCallback(AmxCallback&&) noexcept = default;
+        AmxCallback& operator=(const AmxCallback&) noexcept = default;
+        AmxCallback& operator=(AmxCallback&&) noexcept = default;
 
-		AmxCallback(AMX* const amx, const int index)
-			: amx(amx), index(index) {}
+    public:
 
-		template<class... ARGS>
-		inline cell Call(ARGS... args) const {
+        explicit AmxCallback(AMX* amx, int index) noexcept
+            : amx(amx), index(index) {}
 
-			cell returnValue = NULL;
+        ~AmxCallback() noexcept = default;
 
-			(amx_Push(this->amx, static_cast<cell>(args))); // reverse order of arguments
-			amx_Exec(this->amx, &returnValue, this->index);
+    public:
 
-			return returnValue;
+        template<class... ARGS>
+        cell Call(ARGS... args) const noexcept
+        {
+            cell returnValue { NULL };
 
-		}
+            (amx_Push(this->amx, static_cast<cell>(args)), ...);
+            amx_Exec(this->amx, &returnValue, this->index);
 
-	};
+            return returnValue;
+        }
+
+    private:
+
+        AMX* amx { nullptr };
+        int index { -1 };
+
+    };
 
 	static bool initStatus;
 	static bool debugStatus;
